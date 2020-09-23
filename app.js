@@ -32,6 +32,22 @@ app.get("/blogs", function(req, res){
   });
 });
 
+//new Routes
+app.get("/blogs/new", function(req, res){
+  res.render("new");
+});
+
+//create Routes
+app.post("/blogs", function(req, res){
+  Blog.create(req.body.blog, function(err, newBlog){
+    if(err){
+      res.render("new");
+    }else{
+      res.redirect("/blogs");
+    }
+  });
+});
+
 app.listen(3000, process.env.IP, function(){
   console.log("server started");
 });
