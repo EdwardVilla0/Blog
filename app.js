@@ -4,7 +4,8 @@ var express         = require("express"),
     mongoose        = require("mongoose"),
     methodOverride  = require("method-override");
 
-mongoose.connect("mongodb://localhost/restful_blog_app", {useUnifiedTopology: true, useNewUrlParser: true});
+mongoose.connect("mongodb://localhost/restful_blog_app", {useUnifiedTopology: true, useNewUrlParser: true, });
+mongoose.set('useFindAndModify', false);
 app.set("view engine", "ejs");
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static("public"));
@@ -79,6 +80,17 @@ app.put("/blogs/:id", function(req, res){
       res.redirect("/blogs");
     }else{
       res.redirect("/blogs/" + req.params.id);
+    }
+  });
+});
+
+// delete route
+app.delete("/blogs/:id", function(req, res){
+  Blog.findByIdAndRemove(req.params.id, function(err){
+    if(err){
+      res.redirect("/blogs");
+    }else{
+      res.redirect("/blogs");
     }
   });
 });
